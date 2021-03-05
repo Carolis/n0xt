@@ -1,6 +1,6 @@
 const Main = () => (
-  <div>
+  <main>
     <h1>n0xt</h1>
-  </div>
+  </main>
 )
 export default Main
