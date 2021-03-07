@@ -1,3 +1,2 @@
-const Main = () => <h1>n0xt</h1>
-
+const Main = () => <div><h1>salve salve</h1><a href="#">linkzada</a></div>
 export default Main
