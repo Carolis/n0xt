@@ -11,6 +11,7 @@
     "test:watch": "yarn test --watch"
   },
   "dependencies": {
+    "@styled-icons/evaicons-outline": "^10.18.0",
     "leaflet": "^1.7.1",
     "next": "10.0.7",
     "next-pwa": "^5.0.5",
