@@ -14,7 +14,7 @@ export type PlacesTemplateProps = {
   place: {
     slug: string
     name: string
-    description: {
+    description?: {
       html: string
     }
     gallery: ImageProps[]
@@ -33,7 +33,7 @@ export default function PlacesTemplate({ place }: PlacesTemplateProps) {
         <S.Container>
           <S.Heading>{place.name}</S.Heading>
           <S.Body
-            dangerouslySetInnerHTML={{ __html: place.description?.html }}
+            dangerouslySetInnerHTML={{ __html: place.description?.html || '' }}
           />
           <S.Gallery>
             {place.gallery.map((image, index) => (
