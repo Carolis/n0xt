@@ -10,7 +10,7 @@ export default function Page({ heading, body }: PageTemplateProps) {
   if (router.isFallback) return null
   return <PageTemplate heading={heading} body={body} />
 }
-
+//generate urls in build time
 export async function getStaticPaths() {
   const { pages } = await client.request<GetPagesQuery>(GET_PAGES, { first: 3 })
 
@@ -20,7 +20,7 @@ export async function getStaticPaths() {
 
   return { paths, fallback: true }
 }
-
+//generate data in build time
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { page } = await client.request<GetPageBySlugQuery>(GET_PAGE_BY_SLUG, {
     slug: `${params?.slug}`
