@@ -31,6 +31,9 @@ export const GET_PLACES = gql`
       id
       slug
       name
+      customMarkerIcon {
+        url
+      }
       location {
         latitude
         longitude

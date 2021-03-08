@@ -13,6 +13,9 @@ type Place = {
   id: string
   name: string
   slug: string
+  customMarkerIcon: {
+    url: string
+  }
   location: {
     latitude: number
     longitude: number
@@ -39,13 +42,6 @@ const CustomTileLayer = () => {
     />
   )
 }
-
-const markerIcon = new L.Icon({
-  iconUrl: 'img/icon-192.png',
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
-  popupAnchor: [0, -40]
-})
 
 const Map = ({ places }: MapProps) => {
   const router = useRouter()
@@ -77,9 +73,15 @@ const Map = ({ places }: MapProps) => {
         </MapConsumer>
         <CustomTileLayer />
 
-        {places?.map(({ id, slug, name, location }) => {
+        {places?.map(({ id, slug, name, location, customMarkerIcon }) => {
           const { latitude, longitude } = location
 
+          const markerIcon = new L.Icon({
+            iconUrl: `${customMarkerIcon?.url}`,
+            iconSize: [40, 40],
+            iconAnchor: [20, 40],
+            popupAnchor: [0, -40]
+          })
           return (
             <Marker
               key={`place-${id}`}

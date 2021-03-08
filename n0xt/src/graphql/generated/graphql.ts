@@ -66,6 +66,7 @@ export type Asset = Node & {
   /** The mime type of the file */
   mimeType?: Maybe<Scalars['String']>;
   galleryPlace: Array<Place>;
+  markerIconPlace: Array<Place>;
   /** List of Asset versions */
   history: Array<Version>;
   /** Get the url for the asset with provided transformations applied. */
@@ -120,6 +121,19 @@ export type AssetGalleryPlaceArgs = {
 
 
 /** Asset system model */
+export type AssetMarkerIconPlaceArgs = {
+  where?: Maybe<PlaceWhereInput>;
+  orderBy?: Maybe<PlaceOrderByInput>;
+  skip?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  locales?: Maybe<Array<Locale>>;
+};
+
+
+/** Asset system model */
 export type AssetHistoryArgs = {
   limit?: Scalars['Int'];
   skip?: Scalars['Int'];
@@ -159,6 +173,7 @@ export type AssetCreateInput = {
   size?: Maybe<Scalars['Float']>;
   mimeType?: Maybe<Scalars['String']>;
   galleryPlace?: Maybe<PlaceCreateManyInlineInput>;
+  markerIconPlace?: Maybe<PlaceCreateManyInlineInput>;
   /** Inline mutations for managing document localizations excluding the default locale */
   localizations?: Maybe<AssetCreateLocalizationsInput>;
 };
@@ -285,6 +300,9 @@ export type AssetManyWhereInput = {
   galleryPlace_every?: Maybe<PlaceWhereInput>;
   galleryPlace_some?: Maybe<PlaceWhereInput>;
   galleryPlace_none?: Maybe<PlaceWhereInput>;
+  markerIconPlace_every?: Maybe<PlaceWhereInput>;
+  markerIconPlace_some?: Maybe<PlaceWhereInput>;
+  markerIconPlace_none?: Maybe<PlaceWhereInput>;
 };
 
 export enum AssetOrderByInput {
@@ -326,6 +344,7 @@ export type AssetUpdateInput = {
   size?: Maybe<Scalars['Float']>;
   mimeType?: Maybe<Scalars['String']>;
   galleryPlace?: Maybe<PlaceUpdateManyInlineInput>;
+  markerIconPlace?: Maybe<PlaceUpdateManyInlineInput>;
   /** Manage document localizations */
   localizations?: Maybe<AssetUpdateLocalizationsInput>;
 };
@@ -627,6 +646,9 @@ export type AssetWhereInput = {
   galleryPlace_every?: Maybe<PlaceWhereInput>;
   galleryPlace_some?: Maybe<PlaceWhereInput>;
   galleryPlace_none?: Maybe<PlaceWhereInput>;
+  markerIconPlace_every?: Maybe<PlaceWhereInput>;
+  markerIconPlace_some?: Maybe<PlaceWhereInput>;
+  markerIconPlace_none?: Maybe<PlaceWhereInput>;
 };
 
 /** References Asset record uniquely */
@@ -1626,6 +1648,7 @@ export type Place = Node & {
   location: Location;
   description?: Maybe<RichText>;
   gallery: Array<Asset>;
+  customMarkerIcon: Asset;
   /** List of Place versions */
   history: Array<Version>;
 };
@@ -1646,6 +1669,11 @@ export type PlaceGalleryArgs = {
   before?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
+  locales?: Maybe<Array<Locale>>;
+};
+
+
+export type PlaceCustomMarkerIconArgs = {
   locales?: Maybe<Array<Locale>>;
 };
 
@@ -1681,6 +1709,7 @@ export type PlaceCreateInput = {
   location: LocationInput;
   description?: Maybe<Scalars['RichTextAST']>;
   gallery: AssetCreateManyInlineInput;
+  customMarkerIcon: AssetCreateOneInlineInput;
 };
 
 export type PlaceCreateManyInlineInput = {
@@ -1821,6 +1850,7 @@ export type PlaceManyWhereInput = {
   gallery_every?: Maybe<AssetWhereInput>;
   gallery_some?: Maybe<AssetWhereInput>;
   gallery_none?: Maybe<AssetWhereInput>;
+  customMarkerIcon?: Maybe<AssetWhereInput>;
 };
 
 export enum PlaceOrderByInput {
@@ -1844,6 +1874,7 @@ export type PlaceUpdateInput = {
   location?: Maybe<LocationInput>;
   description?: Maybe<Scalars['RichTextAST']>;
   gallery?: Maybe<AssetUpdateManyInlineInput>;
+  customMarkerIcon?: Maybe<AssetUpdateOneInlineInput>;
 };
 
 export type PlaceUpdateManyInlineInput = {
@@ -2026,6 +2057,7 @@ export type PlaceWhereInput = {
   gallery_every?: Maybe<AssetWhereInput>;
   gallery_some?: Maybe<AssetWhereInput>;
   gallery_none?: Maybe<AssetWhereInput>;
+  customMarkerIcon?: Maybe<AssetWhereInput>;
 };
 
 /** References Place record uniquely */
@@ -2389,7 +2421,10 @@ export type GetPlacesQuery = (
   & { places: Array<(
     { __typename?: 'Place' }
     & Pick<Place, 'id' | 'slug' | 'name'>
-    & { location: (
+    & { customMarkerIcon: (
+      { __typename?: 'Asset' }
+      & Pick<Asset, 'url'>
+    ), location: (
       { __typename?: 'Location' }
       & Pick<Location, 'latitude' | 'longitude'>
     ), description?: Maybe<(
